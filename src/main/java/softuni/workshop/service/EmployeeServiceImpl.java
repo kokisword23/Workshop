@@ -1,5 +1,6 @@
 package softuni.workshop.service;
 
+import com.google.gson.Gson;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -7,6 +8,8 @@ import softuni.workshop.domain.dtos.exportDto.EmployeeExportDto;
 import softuni.workshop.domain.dtos.exportDto.EmployeeExportRootDto;
 import softuni.workshop.domain.dtos.importDto.EmployeeDto;
 import softuni.workshop.domain.dtos.importDto.EmployeeRootDto;
+import softuni.workshop.domain.dtos.jsonDtos.exportDto.EmployeeJsonDto;
+import softuni.workshop.domain.dtos.jsonDtos.exportDto.ProjectJsonDto;
 import softuni.workshop.domain.entities.Employee;
 import softuni.workshop.domain.entities.Project;
 import softuni.workshop.repository.EmployeeRepository;
@@ -15,9 +18,10 @@ import softuni.workshop.util.FileUtil;
 import softuni.workshop.util.ValidatorUtil;
 import softuni.workshop.util.XmlParser;
 
-import javax.swing.text.html.parser.Entity;
 import javax.transaction.Transactional;
 import javax.xml.bind.JAXBException;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +35,8 @@ public class EmployeeServiceImpl implements EmployeeService {
             "C:\\SoftUni\\DB\\workshop-skeleton\\src\\main\\resources\\files\\xmls\\employees.xml";
     private final static String EXPORT_EMPLOYEES_FILE_PATH =
             "C:\\SoftUni\\DB\\workshop-skeleton\\src\\main\\resources\\files\\xmls\\exported-employees.xml";
+    private final static String JSON_EMPLOYEES_FILE_PATH =
+            "C:\\SoftUni\\DB\\workshop-skeleton\\src\\main\\resources\\files\\jsons\\employees.json";
 
     private final EmployeeRepository employeeRepository;
     private final ProjectRepository projectRepository;
@@ -38,15 +44,19 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final FileUtil fileUtil;
     private final XmlParser xmlParser;
     private final ValidatorUtil validatorUtil;
+    private final Gson gson;
 
     @Autowired
-    public EmployeeServiceImpl(EmployeeRepository employeeRepository, ProjectRepository projectRepository, ModelMapper modelMapper, FileUtil fileUtil, XmlParser xmlParser, ValidatorUtil validatorUtil) {
+    public EmployeeServiceImpl(EmployeeRepository employeeRepository, ProjectRepository projectRepository,
+                               ModelMapper modelMapper, FileUtil fileUtil, XmlParser xmlParser, ValidatorUtil validatorUtil, Gson gson) {
         this.employeeRepository = employeeRepository;
         this.projectRepository = projectRepository;
         this.modelMapper = modelMapper;
         this.fileUtil = fileUtil;
         this.xmlParser = xmlParser;
         this.validatorUtil = validatorUtil;
+        this.gson = gson;
+        ;
     }
 
     @Override
@@ -105,5 +115,61 @@ public class EmployeeServiceImpl implements EmployeeService {
         EmployeeExportRootDto export = new EmployeeExportRootDto();
         export.setEmployeeExportDtos(exportDtos);
         this.xmlParser.exportXML(export,EXPORT_EMPLOYEES_FILE_PATH);
+    }
+
+
+    @Override
+    public void exportEmployeesToJson() throws IOException {
+        List<Employee> employees = this.employeeRepository.findAll();
+        List<EmployeeJsonDto> employeeJsonDtos = new ArrayList<>();
+
+        for (Employee employee : employees) {
+            Project project = this.projectRepository.findProjectByName(employee.getProject().getName());
+            EmployeeJsonDto employeeJsonDto = this.modelMapper.map(employee, EmployeeJsonDto.class);
+            employeeJsonDto.setProjectJsonDto(this.modelMapper.map(project, ProjectJsonDto.class));
+            employeeJsonDtos.add(employeeJsonDto);
+        }
+        FileWriter writer = new FileWriter(new File(JSON_EMPLOYEES_FILE_PATH));
+        String content = this.gson.toJson(employeeJsonDtos);
+        writer.write(content);
+
+        writer.close();
+    }
+
+    @Override
+    public String readEmployeesJsonFile() throws IOException {
+        return this.fileUtil.readFile(JSON_EMPLOYEES_FILE_PATH);
+    }
+
+    @Override
+    public boolean areExported() throws IOException {
+       return  this.readEmployeesJsonFile().length() > 0;
+    }
+
+    @Override
+    public String exportEmployeesWithGivenName() {
+        StringBuilder sb = new StringBuilder();
+        List<Employee> employees = this.employeeRepository.findAllByFirstNameOrderById("Mihail");
+        for (Employee employee : employees) {
+            sb.append(String.format("Name: %s %s",employee.getFirstName(), employee.getLastName())).append(System.lineSeparator())
+            .append(String.format("\tAge: %d",employee.getAge())).append(System.lineSeparator());
+        }
+
+        return sb.toString().trim();
+    }
+
+    @Override
+    public String exportEmployeesWithGivenProjectName() {
+        List<Employee> employees = this.employeeRepository.findAllEmployeesWithProjectName("GitBuh_Project");
+
+        StringBuilder sb = new StringBuilder();
+
+        for (Employee employee : employees) {
+            sb.append(String.format("Name: %s %s",employee.getFirstName(), employee.getLastName())).append(System.lineSeparator())
+                    .append(String.format("\tAge: %d",employee.getAge())).append(System.lineSeparator())
+                    .append(String.format("\t Project name: %s",employee.getProject().getName())).append(System.lineSeparator());
+
+        }
+        return sb.toString().trim();
     }
 }

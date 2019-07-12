@@ -14,4 +14,14 @@ public interface EmployeeService {
     String exportEmployeesWithAgeAbove();
 
     void exportEmployees() throws JAXBException;
+
+    void exportEmployeesToJson() throws IOException;
+
+    String readEmployeesJsonFile() throws IOException;
+
+    boolean areExported() throws IOException;
+
+    String exportEmployeesWithGivenName();
+
+    String exportEmployeesWithGivenProjectName();
 }

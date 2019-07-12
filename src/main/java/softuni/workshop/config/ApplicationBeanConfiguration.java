@@ -1,5 +1,7 @@
 package softuni.workshop.config;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,9 +14,6 @@ import javax.validation.Validator;
 
 @Configuration
 public class ApplicationBeanConfiguration {
-
-    //TODO
-
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
@@ -44,4 +43,13 @@ public class ApplicationBeanConfiguration {
     public FileUtil fileUtil(){
         return new FileUtilImpl();
     }
+
+    @Bean
+    public Gson gson(){
+        return new GsonBuilder()
+                .excludeFieldsWithoutExposeAnnotation()
+                .setPrettyPrinting()
+                .create();
+    }
+
 }

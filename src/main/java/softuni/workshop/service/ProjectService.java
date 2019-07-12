@@ -13,4 +13,11 @@ public interface ProjectService {
 
     String exportFinishedProjects();
 
+    void exportProjectToJson() throws IOException;
+
+    String readProjectJsonFile() throws IOException;
+
+    boolean areExported() throws IOException;
+
+    String exportProjectsWithNameEnding();
 }

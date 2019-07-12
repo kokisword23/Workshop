@@ -1,0 +1,122 @@
+[
+  {
+    "name": "HealthCare",
+    "description": "Pharmacy web app",
+    "is-finished": true,
+    "payment": 10000.00,
+    "start-date": "2017-07-12",
+    "company": {
+      "name": "Phoenix"
+    }
+  },
+  {
+    "name": "MMA",
+    "description": "Mixed martial arts club web site",
+    "is-finished": true,
+    "payment": 7000.00,
+    "start-date": "2018-09-21",
+    "company": {
+      "name": "Vallor"
+    }
+  },
+  {
+    "name": "DJApp",
+    "description": "Sound system",
+    "is-finished": false,
+    "payment": 25000.00,
+    "start-date": "2017-08-13",
+    "company": {
+      "name": "MusicCo"
+    }
+  },
+  {
+    "name": "Intel",
+    "description": "Intel new processor",
+    "is-finished": true,
+    "payment": 1500000.00,
+    "start-date": "2016-01-13",
+    "company": {
+      "name": "Tech"
+    }
+  },
+  {
+    "name": "Invest",
+    "description": "Credit web site",
+    "is-finished": false,
+    "payment": 15000.00,
+    "start-date": "2019-04-01",
+    "company": {
+      "name": "FutureInvests"
+    }
+  },
+  {
+    "name": "Furniture",
+    "description": "Furniture magazine",
+    "is-finished": true,
+    "payment": 30000.00,
+    "start-date": "2015-10-21",
+    "company": {
+      "name": "DesignGroup"
+    }
+  },
+  {
+    "name": "Dolby",
+    "description": "HeadSet sound design",
+    "is-finished": false,
+    "payment": 2490000.00,
+    "start-date": "2018-12-27",
+    "company": {
+      "name": "Technologies"
+    }
+  },
+  {
+    "name": "Robocop",
+    "description": "AI robots",
+    "is-finished": false,
+    "payment": 99999.00,
+    "start-date": "2019-05-31",
+    "company": {
+      "name": "MavenLtd"
+    }
+  },
+  {
+    "name": "GitBuh_Project",
+    "description": "GitBuh repositories improvement",
+    "is-finished": true,
+    "payment": 47899.00,
+    "start-date": "2017-02-05",
+    "company": {
+      "name": "Gitbuh"
+    }
+  },
+  {
+    "name": "HoodWars",
+    "description": "Online fighting game",
+    "is-finished": true,
+    "payment": 650000.00,
+    "start-date": "2018-06-11",
+    "company": {
+      "name": "Vallor"
+    }
+  },
+  {
+    "name": "AMD",
+    "description": "Graphic card",
+    "is-finished": true,
+    "payment": 5689900.00,
+    "start-date": "2015-09-16",
+    "company": {
+      "name": "Tech"
+    }
+  },
+  {
+    "name": "Apocalypse",
+    "description": "Zombie antidote",
+    "is-finished": false,
+    "payment": 89000000.00,
+    "start-date": "2012-12-12",
+    "company": {
+      "name": "Phoenix"
+    }
+  }
+]

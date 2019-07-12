@@ -10,4 +10,10 @@ public interface CompanyService {
     boolean areImported();
 
     String readCompaniesXmlFile() throws IOException;
+
+    void exportJsonCompanies() throws IOException;
+
+    String readCompaniesJsonFile() throws IOException;
+
+    boolean areExported() throws IOException;
 }

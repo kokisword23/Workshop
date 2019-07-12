@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:include="~{fragments/head}"></th:block>
+</head>
+<body>
+<header>
+    <th:block th:include="~{fragments/nav-bar}"></th:block>
+</header>
+<main>
+    <div class="jumbotron jumbotron-background d-flex justify-content-center">
+        <div class="container">
+            <div class="col-md-12 d-flex justify-content-center">
+                <h1 class="display-3">Export JSON</h1>
+            </div>
+            <hr class="hr-background" />
+            <div class="col-md-12 d-flex justify-content-center">
+                <h4 class="display-4">Click the buttons below to export JSON.</h4>
+            </div>
+            <div class="col-md-12 d-flex justify-content-center">
+                <th:block th:if="${areExported[0] == false}">
+                    <a class="btn bg-black glow-button mx-5 my-5"th:href="@{/export/companies}">Export Companies</a>
+                </th:block>
+                <th:block th:if="${areExported[1] == false}">
+                    <a class="btn bg-black glow-button mx-5 my-5"th:href="@{/export/projects}">Export Projects</a>
+                </th:block>
+                <th:block th:if="${areExported[2] == false}">
+                    <a class="btn bg-black glow-button mx-5 my-5"th:href="@{/export/employees}">Export Employees</a>
+                </th:block>
+                <th:block th:if="${areExported[0] == true && areExported[1] == true && areExported[2] == true}">
+                    <p class="display-4">All JSON files are exported.</p>
+                </th:block>
+            </div>
+        </div>
+    </div>
+</main>
+<footer>
+    <th:block th:include="~{fragments/footer}"></th:block>
+</footer>
+</body>
+</html>

@@ -12,4 +12,6 @@ public interface ProjectRepository extends JpaRepository<Project, Integer> {
     Project findProjectByName(String name);
 
     List<Project> findAllByFinishedIsTrue();
+
+    List<Project> findAllByNameEndingWithOrderByPaymentDesc(String name);
 }

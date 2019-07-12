@@ -9,7 +9,7 @@ import softuni.workshop.service.CompanyService;
 import softuni.workshop.service.EmployeeService;
 import softuni.workshop.service.ProjectService;
 
-import javax.xml.bind.JAXBException;
+import java.io.IOException;
 
 @Controller
 public class HomeController extends BaseController {
@@ -33,12 +33,16 @@ public class HomeController extends BaseController {
 
     @GetMapping("/home")
     @PreAuthorize("isAuthenticated()")
-    public ModelAndView home(ModelAndView modelAndView) throws JAXBException {
+    public ModelAndView home(ModelAndView modelAndView) throws IOException {
         boolean areImported = this.companyService.areImported() &&
                 this.projectService.areImported() &&
                 this.employeeService.areImported();
-        this.employeeService.exportEmployees();
+
+        boolean areExported = this.companyService.areExported() &&
+                this.projectService.areExported() &&
+                this.employeeService.areExported();
         modelAndView.addObject("areImported", areImported);
+        modelAndView.addObject("areExported",areExported);
         return super.view("home", modelAndView);
     }
 }
